@@ -14,11 +14,6 @@ export const defaultFilterCriteria: ResourceFilterCriteria = {
   criticality: 'all',
 }
 
-/**
- * Search spans name, type, and owner (a superset of the "search by name"
- * requirement) since matching only on name felt too narrow for a resource
- * inventory a real engineer would search by owning team or resource kind.
- */
 export function filterResources(
   resources: Resource[],
   criteria: ResourceFilterCriteria,
@@ -30,12 +25,8 @@ export function filterResources(
     if (criteria.environment !== 'all' && resource.environment !== criteria.environment) return false
     if (criteria.criticality !== 'all' && resource.criticality !== criteria.criticality) return false
 
-    if (query.length === 0) return true;
+    if (query.length === 0) return true
 
-    return (
-      resource.name.toLowerCase().includes(query) ||
-      resource.type.toLowerCase().includes(query) ||
-      resource.owner.toLowerCase().includes(query)
-    )
+    return resource.name.toLowerCase().includes(query)
   })
 }

@@ -57,8 +57,8 @@ export function ResourceFilters({ criteria, onChange, resultCount, totalCount }:
           <Input
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
-            placeholder="Search name, type, owner…"
-            aria-label="Search resources"
+            placeholder="Search by name…"
+            aria-label="Search resources by name"
             className={cn('pl-8', searchInput && 'pr-8')}
           />
           {searchInput ? (

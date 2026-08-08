@@ -51,9 +51,12 @@ describe('filterResources', () => {
     expect(result.map((r) => r.id)).toEqual(['r-1'])
   })
 
-  it('matches search by owner as well as name', () => {
-    const result = filterResources(resources, { ...defaultFilterCriteria, search: 'platform' })
-    expect(result.map((r) => r.id)).toEqual(['r-3'])
+  it('only matches on name, not type or owner', () => {
+    // 'platform' is r-3's owner and 'BigQuery' is r-2's type - neither
+    // appears in any resource's name, so both should miss per the spec's
+    // "search by name" requirement.
+    expect(filterResources(resources, { ...defaultFilterCriteria, search: 'platform' })).toEqual([])
+    expect(filterResources(resources, { ...defaultFilterCriteria, search: 'BigQuery' })).toEqual([])
   })
 
   it('filters by a single dimension (provider)', () => {

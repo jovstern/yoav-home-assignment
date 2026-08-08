@@ -77,6 +77,7 @@ export default function App() {
                 resources={filteredResources}
                 isSelected={isSelected}
                 onToggle={toggle}
+                searchQuery={criteria.search}
               />
             ) : (
               <EmptyState

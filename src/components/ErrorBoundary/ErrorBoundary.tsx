@@ -10,11 +10,6 @@ interface ErrorBoundaryState {
   error: Error | null
 }
 
-/**
- * React only offers error boundaries as class components (no hook
- * equivalent) - this catches render errors anywhere in its subtree and
- * shows a recoverable fallback instead of an unmounted, blank page.
- */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { error: null }
 

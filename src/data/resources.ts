@@ -1,10 +1,5 @@
 import type { Resource } from '@/types'
 
-/**
- * Deliberately varied across all providers, environments, and criticality
- * levels, with a few resources sharing an owner ("payments", "platform")
- * so search/filter combinations produce meaningful, non-trivial results.
- */
 export const resources: Resource[] = [
   {
     id: 'r-001',

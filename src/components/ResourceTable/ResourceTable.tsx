@@ -9,11 +9,12 @@ interface ResourceTableProps {
   resources: Resource[]
   isSelected: (id: string) => boolean
   onToggle: (id: string) => void
+  searchQuery: string
 }
 
 const ESTIMATED_ROW_HEIGHT = 57
 
-export function ResourceTable({ resources, isSelected, onToggle }: ResourceTableProps) {
+export function ResourceTable({ resources, isSelected, onToggle, searchQuery }: ResourceTableProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const virtualizer = useVirtualizer({
@@ -26,20 +27,6 @@ export function ResourceTable({ resources, isSelected, onToggle }: ResourceTable
   return (
     <div role="table" className="overflow-x-auto rounded-lg border border-border">
       <div className="min-w-[640px]">
-        {/*
-         * Virtualized with @tanstack/react-virtual: today's seed dataset is
-         * only ~15 rows, so this buys nothing yet — it's wired up ahead of
-         * need. If this ever backs a real cloud inventory (thousands of
-         * resources from a paginated/streamed API), only the rows actually
-         * scrolled into view get mounted, so the DOM and render cost stay
-         * flat instead of growing with the dataset.
-         *
-         * The header row lives inside this same scrollable element (sticky,
-         * not a sibling above it) so it's always exactly as wide as the
-         * rows — a header outside the scroll container ends up narrower
-         * than the rows by the scrollbar's width whenever it's visible,
-         * which throws off column alignment.
-         */}
         <div ref={scrollRef} role="rowgroup" className="max-h-[600px] overflow-y-auto">
           <div
             role="row"
@@ -85,7 +72,12 @@ export function ResourceTable({ resources, isSelected, onToggle }: ResourceTable
                     transform: `translateY(${virtualRow.start}px)`,
                   }}
                 >
-                  <ResourceRow resource={resource} selected={isSelected(resource.id)} onToggle={onToggle} />
+                  <ResourceRow
+                    resource={resource}
+                    selected={isSelected(resource.id)}
+                    onToggle={onToggle}
+                    searchQuery={searchQuery}
+                  />
                 </div>
               )
             })}

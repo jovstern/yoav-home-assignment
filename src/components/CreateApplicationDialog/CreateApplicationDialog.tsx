@@ -84,7 +84,15 @@ export function CreateApplicationDialog({
           <span className="text-sm font-medium">Resources</span>
           <div className="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto rounded-md border border-border bg-muted/40 p-2">
             {selectedResources.map((resource) => (
-              <Tooltip key={resource.id} content={resource.name}>
+              <Tooltip
+                key={resource.id}
+                content={
+                  <span className="flex flex-col gap-0.5">
+                    <span>{resource.name}</span>
+                    <span className="text-background/70">{resource.owner}</span>
+                  </span>
+                }
+              >
                 <Badge variant="outline" className="max-w-[160px] truncate">
                   {resource.name}
                 </Badge>

@@ -1,6 +1,5 @@
-import { Layers, Trash2 } from 'lucide-react'
+import { Layers } from 'lucide-react'
 import { Button } from '@/components/ui/Button/Button'
-import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 
 interface SelectionBarProps {
   count: number
@@ -18,11 +17,9 @@ export function SelectionBar({ count, onClear, onCreateApplication }: SelectionB
         {count} resource{count === 1 ? '' : 's'} selected
       </span>
       <div className="flex items-center gap-2">
-        <Tooltip content="Clear selection">
-          <Button variant="outline" size="icon" className="size-9" onClick={onClear} aria-label="Clear selection">
-            <Trash2 />
-          </Button>
-        </Tooltip>
+        <Button variant="outline" size="sm" onClick={onClear}>
+          Cancel
+        </Button>
         <Button size="sm" onClick={onCreateApplication}>
           Create Application
         </Button>

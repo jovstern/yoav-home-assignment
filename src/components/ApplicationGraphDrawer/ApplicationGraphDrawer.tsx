@@ -55,7 +55,15 @@ export function ApplicationGraphDrawer({ application, resources, onOpenChange }:
             <ul className="flex flex-col gap-1.5">
               {members.map((resource) => (
                 <li key={resource.id} className="flex items-center justify-between gap-2 text-sm">
-                  <Tooltip content={resource.name} triggerClassName="block truncate">
+                  <Tooltip
+                    content={
+                      <span className="flex flex-col gap-0.5">
+                        <span>{resource.name}</span>
+                        <span className="text-background/70">{resource.owner}</span>
+                      </span>
+                    }
+                    triggerClassName="block truncate"
+                  >
                     {resource.name}
                   </Tooltip>
                   <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">

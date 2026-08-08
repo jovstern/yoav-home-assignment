@@ -3,6 +3,7 @@ import { AlertCircle } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge/Badge.tsx'
 import { Checkbox } from '@/components/ui/Checkbox/Checkbox.tsx'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip.tsx'
+import { HighlightedText } from '@/components/HighlightedText/HighlightedText.tsx'
 import { COLUMN_WIDTHS, NAME_COLUMN_WIDTH } from '@/constants/resourceColumns.ts'
 import { criticalityBadgeVariant, providerColor } from '@/lib/display.ts'
 import { cn } from '@/lib/utils.ts'
@@ -12,9 +13,10 @@ interface ResourceRowProps {
   resource: Resource
   selected: boolean
   onToggle: (id: string) => void
+  searchQuery: string
 }
 
-export const ResourceRow = memo(function ResourceRow({ resource, selected, onToggle }: ResourceRowProps) {
+export const ResourceRow = memo(function ResourceRow({ resource, selected, onToggle, searchQuery }: ResourceRowProps) {
   return (
     <div
       role="row"
@@ -28,8 +30,18 @@ export const ResourceRow = memo(function ResourceRow({ resource, selected, onTog
         />
       </div>
       <div role="cell" className={cn('px-3 py-2.5', COLUMN_WIDTHS.name)}>
-        <Tooltip content={resource.name} triggerClassName={cn('block truncate font-medium text-foreground', NAME_COLUMN_WIDTH)}>
-          {resource.name}
+        <Tooltip
+          content={
+            <span className="flex flex-col gap-0.5">
+              <span>
+                <HighlightedText text={resource.name} query={searchQuery} />
+              </span>
+              <span className="text-background/70">{resource.owner}</span>
+            </span>
+          }
+          triggerClassName={cn('block truncate font-medium text-foreground', NAME_COLUMN_WIDTH)}
+        >
+          <HighlightedText text={resource.name} query={searchQuery} />
         </Tooltip>
         <div className={cn('truncate text-xs text-muted-foreground', NAME_COLUMN_WIDTH)}>{resource.owner}</div>
       </div>

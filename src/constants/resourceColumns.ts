@@ -1,10 +1,5 @@
 export const NAME_COLUMN_WIDTH = 'max-w-[200px]'
 
-/**
- * Shared between ResourceTable's header row and ResourceRow so columns
- * line up — rows are flex-based (not a native table) so virtualization
- * can measure/position them individually.
- */
 export const COLUMN_WIDTHS = {
   checkbox: 'w-10 shrink-0',
   name: 'min-w-0 flex-1',
@@ -13,5 +8,5 @@ export const COLUMN_WIDTHS = {
   region: 'hidden w-30 shrink-0 lg:block',
   environment: 'w-28 shrink-0',
   criticality: 'w-24 shrink-0',
-  openIssues: 'w-24 shrink-0 text-right',
+  openIssues: 'w-24 shrink-0 text-center',
 }

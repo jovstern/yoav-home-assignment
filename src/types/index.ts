@@ -12,11 +12,6 @@ export interface Resource {
   criticality: Criticality
   owner: string
   tags: string[]
-  /**
-   * Not present in the spec's Resource interface, but required by the
-   * "Display" requirement and shown on the spec's own sample resource —
-   * added here to reconcile that inconsistency.
-   */
   openIssues: number
 }
 

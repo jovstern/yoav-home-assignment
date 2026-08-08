@@ -13,11 +13,6 @@ const RADIUS = 160
 const NODE_RADIUS = 26
 const CENTER_RADIUS = 42
 
-/**
- * Plain SVG hub-and-spoke layout — the graph is always a single
- * Application node with resource nodes arranged radially around it, which
- * doesn't need a general-purpose graph library's layout engine.
- */
 export function ApplicationGraph({ application, resources }: ApplicationGraphProps) {
   const nodes = useMemo(() => {
     const count = resources.length
@@ -51,11 +46,6 @@ export function ApplicationGraph({ application, resources }: ApplicationGraphPro
       ))}
 
       {nodes.map(({ resource, x, y }) => {
-        // The spoke line runs from the hub to this node, so it touches
-        // whichever side of the circle faces the hub. For nodes above the
-        // hub that's the bottom of the circle - the same side the label
-        // normally sits on - so the line would cut through the label text.
-        // Flip the label above the node in that case instead.
         const labelAbove = y < CENTER
 
         return (
