@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { Drawer } from '@/components/ui/Drawer/Drawer'
 import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
@@ -16,12 +16,15 @@ interface ApplicationGraphDrawerProps {
 }
 
 export function ApplicationGraphDrawer({ application, resources, onOpenChange }: ApplicationGraphDrawerProps) {
-  const deleteApplication = useApplicationsStore((state) => state.deleteApplication)
-  const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const deleteApplication = useApplicationsStore((state) => state.deleteApplication);
 
-  useEffect(() => {
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [lastApplicationId, setLastApplicationId] = useState(application?.id);
+
+  if (application?.id !== lastApplicationId) {
+    setLastApplicationId(application?.id)
     setConfirmingDelete(false)
-  }, [application?.id])
+  }
 
   const members = useMemo(() => {
     if (!application) return []

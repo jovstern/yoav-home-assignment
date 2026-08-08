@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Dialog } from '@/components/ui/Dialog/Dialog'
 import { Input } from '@/components/ui/Input/Input'
 import { Button } from '@/components/ui/Button/Button'
@@ -24,12 +24,18 @@ export function CreateApplicationDialog({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
-  useEffect(() => {
+  // Clear the form each time the dialog opens, without an Effect: track
+  // whether `open` just flipped and adjust state inline if so, so React
+  // discards the stale render instead of committing it and re-rendering
+  // again from a setState inside an Effect.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (open !== wasOpen) {
+    setWasOpen(open)
     if (open) {
       setName('')
       setDescription('')
     }
-  }, [open])
+  }
 
   const isValid = name.trim().length > 0 && selectedResources.length > 0
 

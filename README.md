@@ -76,6 +76,7 @@ The app was also manually tested across browsers - Chrome, Safari, and Firefox -
 - Playwright E2E covering the full select → create → view-graph path.
 - Pin selected resources to the top of the list, so a selection stays visible/reachable instead of scrolling out of view once you've picked from further down a long, virtualized list.
 - Copy-to-clipboard on a row (e.g. its name or ID), for quickly grabbing a resource's identifier without needing to open anything else.
+- **React Compiler**, once the app is big enough to have real render-cost hotspots worth auto-memoizing - today there's nothing to fix, so turning it on would just add a slower Babel-based dev transform in place of Vite's normal esbuild/SWC pipeline for no measurable benefit. Already got a taste of it cheaply: `react/react-compiler` is enabled in `.oxlintrc.json` (oxlint ports the same static analysis natively, no separate `eslint-plugin-react-compiler`/ESLint install needed), and it's already flagged two real "reset state via a `useEffect`" spots worth fixing (`ApplicationGraphDrawer`, `CreateApplicationDialog`) - a good example of the lint value being separable from the runtime compiler.
 
 ## Where I used AI
 

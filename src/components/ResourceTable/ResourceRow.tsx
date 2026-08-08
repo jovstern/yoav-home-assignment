@@ -33,10 +33,7 @@ export const ResourceRow = memo(function ResourceRow({ resource, selected, onTog
         <Tooltip
           content={
             <span className="flex flex-col gap-0.5">
-              <span>
-                <HighlightedText text={resource.name} query={searchQuery} />
-              </span>
-              <span className="text-background/70">{resource.owner}</span>
+              <span>{resource.name}</span>
             </span>
           }
           triggerClassName={cn('block truncate font-medium text-foreground', NAME_COLUMN_WIDTH)}

@@ -13,7 +13,7 @@ export function HighlightedText({ text, query }: HighlightedTextProps) {
     <>
       {segments.map((segment, index) =>
         segment.matched ? (
-          <mark key={index} className="rounded-sm bg-pink-500/20 text-inherit">
+          <mark key={index} className="rounded-sm bg-pink-500/20 text-pink-700">
             {segment.text}
           </mark>
         ) : (
