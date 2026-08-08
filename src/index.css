@@ -31,6 +31,6 @@ body {
   @apply text-foreground antialiased;
   font-family: var(--font-sans);
   background: #ffffff;
-  background: linear-gradient(150deg, rgba(255, 166, 176, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(150deg, rgba(255, 231, 234, 1) 0%, rgba(255, 255, 255, 1) 100%);
   min-height: 100vh;
 }

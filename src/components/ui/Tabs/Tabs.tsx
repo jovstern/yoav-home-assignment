@@ -7,7 +7,7 @@ const Tabs = TabsPrimitive.Root
 function TabsList({ className, ...props }: ComponentPropsWithoutRef<typeof TabsPrimitive.List>) {
   return (
     <TabsPrimitive.List
-      className={cn('flex w-fit gap-1 rounded-lg border border-border bg-muted/40 p-1', className)}
+      className={cn('flex w-fit items-center border-b border-border', className)}
       {...props}
     />
   )
@@ -17,7 +17,7 @@ function TabsTab({ className, ...props }: ComponentPropsWithoutRef<typeof TabsPr
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        'flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground outline-none transition-colors data-[state=active]:bg-surface data-[state=active]:text-foreground data-[state=active]:shadow-sm',
+        'flex items-center gap-1.5 rounded-t-md border-b-2 border-transparent px-3 py-2.5 text-sm font-medium text-muted-foreground outline-none transition-colors  hover:text-primary data-[state=active]:border-primary data-[state=active]:text-primary',
         className,
       )}
       {...props}

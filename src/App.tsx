@@ -41,6 +41,7 @@ export default function App() {
   return (
     <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-4 py-4 sm:px-6">
       <Tabs value={tab} onValueChange={(value) => setTab(value as Tab)}>
+
         <header className="flex flex-col gap-4">
           <div>
             <h1 className="text-xl font-semibold text-gray-700">Gambit Frontend Take-Home</h1>
@@ -50,15 +51,15 @@ export default function App() {
           </div>
 
           <TabsList>
-            <TabsTab value="resources">
+            <TabsTab value="resources" >
               <Database className="size-4" />
               Resources
-              <span className="text-xs text-muted-foreground">{resources.length}</span>
+              <span className="text-xs ">{resources.length}</span>
             </TabsTab>
-            <TabsTab value="applications">
+            <TabsTab value="applications" >
               <Boxes className="size-4" />
               Applications
-              <span className="text-xs text-muted-foreground">{applications.length}</span>
+              <span className="text-xs ">{applications.length}</span>
             </TabsTab>
           </TabsList>
         </header>
