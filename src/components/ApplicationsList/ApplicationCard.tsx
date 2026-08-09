@@ -10,8 +10,6 @@ interface ApplicationCardProps {
 }
 
 export function ApplicationCard({ application, members, onSelect }: ApplicationCardProps) {
-  const providers = Array.from(new Set(members.map((resource) => resource.provider)))
-
   return (
     <button
       onClick={() => onSelect(application)}
@@ -33,14 +31,14 @@ export function ApplicationCard({ application, members, onSelect }: ApplicationC
           <Boxes className="size-3.5" />
           {members.length} resource{members.length === 1 ? '' : 's'}
         </span>
-        <span className="flex items-center gap-1">
-          {providers.map((provider) => (
-            <span
-              key={provider}
-              className="size-2 rounded-full"
-              style={{ backgroundColor: providerColor(provider) }}
-              title={provider}
-            />
+        <span className="flex flex-wrap items-center gap-1">
+          {members.map((resource) => (
+            <Tooltip key={resource.id} content={resource.name}>
+              <span
+                className="block size-2 shrink-0 rounded-full"
+                style={{ backgroundColor: providerColor(resource.provider) }}
+              />
+            </Tooltip>
           ))}
         </span>
       </div>

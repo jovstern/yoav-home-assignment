@@ -123,11 +123,10 @@ export default function App() {
       />
 
       <ApplicationGraphDrawer
+          open={viewingApplication !== null}
         application={viewingApplication}
         resources={resources}
-        onOpenChange={(open) => {
-          if (!open) setViewingApplication(null)
-        }}
+        onOpenChange={setViewingApplication}
       />
     </div>
   )

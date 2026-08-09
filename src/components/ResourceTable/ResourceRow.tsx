@@ -40,7 +40,7 @@ export const ResourceRow = memo(function ResourceRow({ resource, selected, onTog
         >
           <HighlightedText text={resource.name} query={searchQuery} />
         </Tooltip>
-        <div className={cn('truncate text-xs text-muted-foreground', NAME_COLUMN_WIDTH)}>{resource.owner}</div>
+        <div className={cn('truncate text-xs text-muted-foreground', NAME_COLUMN_WIDTH)}>Owner: {resource.owner}</div>
       </div>
       <div role="cell" className={cn('truncate px-3 py-2.5 text-muted-foreground', COLUMN_WIDTHS.type)}>
         {resource.type}

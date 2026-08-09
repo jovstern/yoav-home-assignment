@@ -1,29 +1,34 @@
 import { useMemo, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { Drawer } from '@/components/ui/Drawer/Drawer'
-import { Tooltip } from '@/components/ui/Tooltip/Tooltip'
 import { Button } from '@/components/ui/Button/Button'
 import { ApplicationGraph } from '@/components/ApplicationGraphDrawer/ApplicationGraph.tsx'
-import { Badge } from '@/components/ui/Badge/Badge'
+import { MemberRow } from '@/components/ApplicationGraphDrawer/MemberRow.tsx'
 import { useApplicationsStore } from '@/stores/useApplicationsStore'
-import { criticalityBadgeVariant } from '@/lib/display'
 import type { Application, Resource } from '@/types'
 
 interface ApplicationGraphDrawerProps {
-  application: Application | null
-  resources: Resource[]
-  onOpenChange: (open: boolean) => void
+  application: Application | null;
+  resources: Resource[];
+  onOpenChange: (application: Application | null) => void;
+  open: boolean;
 }
 
-export function ApplicationGraphDrawer({ application, resources, onOpenChange }: ApplicationGraphDrawerProps) {
+export function ApplicationGraphDrawer({ application, resources, onOpenChange, open }: ApplicationGraphDrawerProps) {
   const deleteApplication = useApplicationsStore((state) => state.deleteApplication);
 
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [lastApplicationId, setLastApplicationId] = useState(application?.id);
+  const [hoveredResourceId, setHoveredResourceId] = useState<string | null>(null);
+
+  const handleOnOpenChange=(open: boolean) => {
+    if (!open) onOpenChange(null);
+  }
 
   if (application?.id !== lastApplicationId) {
     setLastApplicationId(application?.id)
     setConfirmingDelete(false)
+    setHoveredResourceId(null)
   }
 
   const members = useMemo(() => {
@@ -39,43 +44,35 @@ export function ApplicationGraphDrawer({ application, resources, onOpenChange }:
       return
     }
     deleteApplication(application.id)
-    onOpenChange(false)
+    handleOnOpenChange(false)
   }
 
   return (
     <Drawer
-      open={application !== null}
-      onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={handleOnOpenChange}
       title={application?.name ?? ''}
       description={application?.description}
     >
       {application ? (
         <div className="flex flex-col gap-4">
-          <ApplicationGraph application={application} resources={members} />
+          <ApplicationGraph
+            application={application}
+            resources={members}
+            hoveredResourceId={hoveredResourceId}
+            onHoverResource={setHoveredResourceId}
+          />
 
           <div className="flex flex-col gap-1.5 border-t border-border pt-3">
             <span className="text-sm font-medium">Members</span>
             <ul className="flex flex-col gap-1.5">
               {members.map((resource) => (
-                <li key={resource.id} className="flex items-center justify-between gap-2 text-sm">
-                  <Tooltip
-                    content={
-                      <span className="flex flex-col gap-0.5">
-                        <span>{resource.name}</span>
-                        <span className="text-background/70">{resource.owner}</span>
-                      </span>
-                    }
-                    triggerClassName="block truncate"
-                  >
-                    {resource.name}
-                  </Tooltip>
-                  <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
-                    {resource.type}
-                    <Badge variant={criticalityBadgeVariant(resource.criticality)}>
-                      {resource.criticality}
-                    </Badge>
-                  </span>
-                </li>
+                <MemberRow
+                  key={resource.id}
+                  resource={resource}
+                  hovered={resource.id === hoveredResourceId}
+                  onHoverChange={setHoveredResourceId}
+                />
               ))}
             </ul>
           </div>

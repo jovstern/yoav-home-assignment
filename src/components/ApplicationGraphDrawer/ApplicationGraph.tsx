@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
-import { criticalityColor } from '@/lib/display.ts'
+import { providerColor } from '@/lib/display.ts'
 import type { Application, Resource } from '@/types'
 
 interface ApplicationGraphProps {
   application: Application
   resources: Resource[]
+  hoveredResourceId: string | null
+  onHoverResource: (resourceId: string | null) => void
 }
 
 const SIZE = 440
@@ -13,7 +15,7 @@ const RADIUS = 160
 const NODE_RADIUS = 26
 const CENTER_RADIUS = 42
 
-export function ApplicationGraph({ application, resources }: ApplicationGraphProps) {
+export function ApplicationGraph({ application, resources, hoveredResourceId, onHoverResource }: ApplicationGraphProps) {
   const nodes = useMemo(() => {
     const count = resources.length
     return resources.map((resource, index) => {
@@ -47,16 +49,22 @@ export function ApplicationGraph({ application, resources }: ApplicationGraphPro
 
       {nodes.map(({ resource, x, y }) => {
         const labelAbove = y < CENTER
+        const hovered = resource.id === hoveredResourceId
 
         return (
-          <g key={resource.id}>
+          <g
+            key={resource.id}
+            className="cursor-pointer"
+            onMouseEnter={() => onHoverResource(resource.id)}
+            onMouseLeave={() => onHoverResource(null)}
+          >
             <circle
               cx={x}
               cy={y}
               r={NODE_RADIUS}
               fill="var(--color-surface)"
-              stroke={criticalityColor(resource.criticality)}
-              strokeWidth={2.5}
+              stroke={providerColor(resource.provider)}
+              strokeWidth={hovered ? 4 : 2.5}
             />
             <text
               x={x}
@@ -71,12 +79,12 @@ export function ApplicationGraph({ application, resources }: ApplicationGraphPro
             </text>
             <text
               x={x}
-              y={labelAbove ? y - NODE_RADIUS - 6 : y + NODE_RADIUS + 14}
+              y={labelAbove ? y - NODE_RADIUS - 8 : y + NODE_RADIUS + 16}
               textAnchor="middle"
               fontSize={10}
-              fill="var(--color-muted-foreground)"
+              fill="var(--color-foreground)"
             >
-              {resource.name.length > 16 ? `${resource.name.slice(0, 15)}…` : resource.name}
+              {resource.name.length > 20 ? `${resource.name.slice(0, 19)}…` : resource.name}
             </text>
           </g>
         )

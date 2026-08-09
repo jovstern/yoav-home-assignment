@@ -22,5 +22,11 @@ export function useSelection() {
 
   const selectedArray = useMemo(() => Array.from(selectedIds), [selectedIds])
 
-  return { selectedIds, selectedArray, toggle, clear, isSelected, size: selectedIds.size }
+  return {
+    selectedIds,
+    selectedArray,
+    toggle,
+    clear,
+    isSelected,
+    size: selectedIds.size }
 }

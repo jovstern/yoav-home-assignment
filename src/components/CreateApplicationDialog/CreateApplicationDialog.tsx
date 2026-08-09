@@ -24,10 +24,6 @@ export function CreateApplicationDialog({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
-  // Clear the form each time the dialog opens, without an Effect: track
-  // whether `open` just flipped and adjust state inline if so, so React
-  // discards the stale render instead of committing it and re-rendering
-  // again from a setState inside an Effect.
   const [wasOpen, setWasOpen] = useState(open)
   if (open !== wasOpen) {
     setWasOpen(open)
@@ -95,11 +91,11 @@ export function CreateApplicationDialog({
                 content={
                   <span className="flex flex-col gap-0.5">
                     <span>{resource.name}</span>
-                    <span className="text-background/70">{resource.owner}</span>
+                    <span className="text-background/70">Owner: {resource.owner}</span>
                   </span>
                 }
               >
-                <Badge variant="outline" className="max-w-[160px] truncate">
+                <Badge variant="outline" className="max-w-[160px] truncate px-1">
                   {resource.name}
                 </Badge>
               </Tooltip>
