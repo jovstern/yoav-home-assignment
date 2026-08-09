@@ -16,11 +16,16 @@ interface ResourceRowProps {
   searchQuery: string
 }
 
-export const ResourceRow = memo(function ResourceRow({ resource, selected, onToggle, searchQuery }: ResourceRowProps) {
+export const ResourceRow = memo(function ResourceRow({
+  resource,
+  selected,
+  onToggle,
+  searchQuery,
+}: ResourceRowProps) {
   return (
     <div
       role="row"
-      className="flex items-center border-b border-border bg-gray-50 hover:bg-amber-50 text-sm"
+      className="border-border flex items-center border-b bg-gray-50 text-sm hover:bg-amber-50"
     >
       <div role="cell" className={cn('px-3 py-2.5', COLUMN_WIDTHS.checkbox)}>
         <Checkbox
@@ -40,9 +45,14 @@ export const ResourceRow = memo(function ResourceRow({ resource, selected, onTog
         >
           <HighlightedText text={resource.name} query={searchQuery} />
         </Tooltip>
-        <div className={cn('truncate text-xs text-muted-foreground', NAME_COLUMN_WIDTH)}>Owner: {resource.owner}</div>
+        <div className={cn('text-muted-foreground truncate text-xs', NAME_COLUMN_WIDTH)}>
+          Owner: {resource.owner}
+        </div>
       </div>
-      <div role="cell" className={cn('truncate px-3 py-2.5 text-muted-foreground', COLUMN_WIDTHS.type)}>
+      <div
+        role="cell"
+        className={cn('text-muted-foreground truncate px-3 py-2.5', COLUMN_WIDTHS.type)}
+      >
         {resource.type}
       </div>
       <div role="cell" className={cn('px-3 py-2.5', COLUMN_WIDTHS.provider)}>
@@ -55,19 +65,27 @@ export const ResourceRow = memo(function ResourceRow({ resource, selected, onTog
           {resource.provider}
         </span>
       </div>
-      <div role="cell" className={cn('truncate px-3 py-2.5 text-muted-foreground', COLUMN_WIDTHS.region)}>
+      <div
+        role="cell"
+        className={cn('text-muted-foreground truncate px-3 py-2.5', COLUMN_WIDTHS.region)}
+      >
         {resource.region}
       </div>
-      <div role="cell" className={cn('px-3 py-2.5 text-muted-foreground capitalize', COLUMN_WIDTHS.environment)}>
+      <div
+        role="cell"
+        className={cn('text-muted-foreground px-3 py-2.5 capitalize', COLUMN_WIDTHS.environment)}
+      >
         {resource.environment}
       </div>
       <div role="cell" className={cn('px-3 py-2.5', COLUMN_WIDTHS.criticality)}>
-        <Badge variant={criticalityBadgeVariant(resource.criticality)}>{resource.criticality}</Badge>
+        <Badge variant={criticalityBadgeVariant(resource.criticality)}>
+          {resource.criticality}
+        </Badge>
       </div>
       <div role="cell" className={cn('px-3 py-2.5', COLUMN_WIDTHS.openIssues)}>
         {resource.openIssues > 0 ? (
-          <span className="inline-flex items-center justify-end gap-1 text-foreground">
-            <AlertCircle className="size-3.5 text-criticality-high" />
+          <span className="text-foreground inline-flex items-center justify-end gap-1">
+            <AlertCircle className="text-criticality-high size-3.5" />
             {resource.openIssues}
           </span>
         ) : (

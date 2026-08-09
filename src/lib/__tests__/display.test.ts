@@ -3,11 +3,15 @@ import { splitByMatch } from '@/lib/display'
 
 describe('splitByMatch', () => {
   it('returns the whole text unmatched when the query is empty', () => {
-    expect(splitByMatch('payments-api-prod', '')).toEqual([{ text: 'payments-api-prod', matched: false }])
+    expect(splitByMatch('payments-api-prod', '')).toEqual([
+      { text: 'payments-api-prod', matched: false },
+    ])
   })
 
   it('returns the whole text unmatched when there is no match', () => {
-    expect(splitByMatch('payments-api-prod', 'xyz')).toEqual([{ text: 'payments-api-prod', matched: false }])
+    expect(splitByMatch('payments-api-prod', 'xyz')).toEqual([
+      { text: 'payments-api-prod', matched: false },
+    ])
   })
 
   it('splits around a match in the middle, preserving original casing', () => {

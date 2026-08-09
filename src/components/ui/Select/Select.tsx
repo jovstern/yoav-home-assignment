@@ -16,21 +16,21 @@ export function Select({ value, onValueChange, children, className, ...props }: 
     <SelectPrimitive.Root value={value} onValueChange={onValueChange}>
       <SelectPrimitive.Trigger
         className={cn(
-          'flex h-9 w-full items-center justify-between gap-2 rounded-md border border-border bg-surface px-3 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+          'border-border bg-surface text-foreground focus-visible:ring-ring flex h-9 w-full items-center justify-between gap-2 rounded-md border px-3 text-sm outline-none focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         {...props}
       >
         <SelectPrimitive.Value />
         <SelectPrimitive.Icon>
-          <ChevronDown className="size-3.5 text-muted-foreground" />
+          <ChevronDown className="text-muted-foreground size-3.5" />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
       <SelectPrimitive.Portal>
         <SelectPrimitive.Content
           position="popper"
           sideOffset={4}
-          className="z-50 max-h-64 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border border-border bg-surface shadow-lg"
+          className="border-border bg-surface z-50 max-h-64 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border shadow-lg"
         >
           <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
         </SelectPrimitive.Content>
@@ -48,7 +48,7 @@ export function SelectItem({ value, children }: SelectItemProps) {
   return (
     <SelectPrimitive.Item
       value={value}
-      className="relative flex cursor-pointer items-center rounded-sm py-1.5 pr-2 pl-7 text-sm text-foreground outline-none select-none data-[highlighted]:bg-muted data-[highlighted]:outline-none"
+      className="text-foreground data-[highlighted]:bg-muted relative flex cursor-pointer items-center rounded-sm py-1.5 pr-2 pl-7 text-sm outline-none select-none data-[highlighted]:outline-none"
     >
       <span className="absolute left-2 inline-flex size-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>

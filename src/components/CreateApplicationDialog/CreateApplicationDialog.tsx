@@ -84,7 +84,7 @@ export function CreateApplicationDialog({
 
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-medium">Resources</span>
-          <div className="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto rounded-md border border-border bg-muted/40 p-2">
+          <div className="border-border bg-muted/40 flex max-h-28 flex-wrap gap-1.5 overflow-y-auto rounded-md border p-2">
             {selectedResources.map((resource) => (
               <Tooltip
                 key={resource.id}

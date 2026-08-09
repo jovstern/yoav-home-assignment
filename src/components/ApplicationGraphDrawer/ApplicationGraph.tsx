@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { providerColor } from '@/lib/display.ts'
+import { criticalityColor, providerColor } from '@/lib/display.ts'
 import type { Application, Resource } from '@/types'
 
 interface ApplicationGraphProps {
@@ -13,9 +13,16 @@ const SIZE = 440
 const CENTER = SIZE / 2
 const RADIUS = 160
 const NODE_RADIUS = 26
+const CRITICALITY_DOT_RADIUS = 5
+const CRITICALITY_DOT_OFFSET = NODE_RADIUS * Math.SQRT1_2
 const CENTER_RADIUS = 42
 
-export function ApplicationGraph({ application, resources, hoveredResourceId, onHoverResource }: ApplicationGraphProps) {
+export function ApplicationGraph({
+  application,
+  resources,
+  hoveredResourceId,
+  onHoverResource,
+}: ApplicationGraphProps) {
   const nodes = useMemo(() => {
     const count = resources.length
     return resources.map((resource, index) => {
@@ -66,6 +73,14 @@ export function ApplicationGraph({ application, resources, hoveredResourceId, on
               stroke={providerColor(resource.provider)}
               strokeWidth={hovered ? 4 : 2.5}
             />
+            <circle
+              cx={x + CRITICALITY_DOT_OFFSET}
+              cy={y - CRITICALITY_DOT_OFFSET}
+              r={CRITICALITY_DOT_RADIUS}
+              fill={criticalityColor(resource.criticality)}
+              stroke="var(--color-surface)"
+              strokeWidth={1.5}
+            />
             <text
               x={x}
               y={y}
@@ -89,7 +104,6 @@ export function ApplicationGraph({ application, resources, hoveredResourceId, on
           </g>
         )
       })}
-
       <circle cx={CENTER} cy={CENTER} r={CENTER_RADIUS} fill="var(--color-primary)" />
       <text
         x={CENTER}

@@ -14,7 +14,7 @@ export function MemberRow({ resource, hovered, onHoverChange }: MemberRowProps) 
   return (
     <li
       className={cn(
-        'flex items-center justify-between gap-2 rounded-md px-1.5 py-0.5 -mx-1.5 text-sm transition-colors',
+        '-mx-1.5 flex items-center justify-between gap-2 rounded-md px-1.5 py-0.5 text-sm transition-colors',
         hovered && 'bg-muted',
       )}
       onMouseEnter={() => onHoverChange(resource.id)}
@@ -31,9 +31,11 @@ export function MemberRow({ resource, hovered, onHoverChange }: MemberRowProps) 
       >
         {resource.name}
       </Tooltip>
-      <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
+      <span className="text-muted-foreground flex shrink-0 items-center gap-2 text-xs">
         {resource.type}
-        <Badge variant={criticalityBadgeVariant(resource.criticality)}>{resource.criticality}</Badge>
+        <Badge variant={criticalityBadgeVariant(resource.criticality)}>
+          {resource.criticality}
+        </Badge>
       </span>
     </li>
   )

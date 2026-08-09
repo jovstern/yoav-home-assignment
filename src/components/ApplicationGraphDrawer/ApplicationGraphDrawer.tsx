@@ -8,21 +8,26 @@ import { useApplicationsStore } from '@/stores/useApplicationsStore'
 import type { Application, Resource } from '@/types'
 
 interface ApplicationGraphDrawerProps {
-  application: Application | null;
-  resources: Resource[];
-  onOpenChange: (application: Application | null) => void;
-  open: boolean;
+  application: Application | null
+  resources: Resource[]
+  onOpenChange: (application: Application | null) => void
+  open: boolean
 }
 
-export function ApplicationGraphDrawer({ application, resources, onOpenChange, open }: ApplicationGraphDrawerProps) {
-  const deleteApplication = useApplicationsStore((state) => state.deleteApplication);
+export function ApplicationGraphDrawer({
+  application,
+  resources,
+  onOpenChange,
+  open,
+}: ApplicationGraphDrawerProps) {
+  const deleteApplication = useApplicationsStore((state) => state.deleteApplication)
 
-  const [confirmingDelete, setConfirmingDelete] = useState(false);
-  const [lastApplicationId, setLastApplicationId] = useState(application?.id);
-  const [hoveredResourceId, setHoveredResourceId] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
+  const [lastApplicationId, setLastApplicationId] = useState(application?.id)
+  const [hoveredResourceId, setHoveredResourceId] = useState<string | null>(null)
 
-  const handleOnOpenChange=(open: boolean) => {
-    if (!open) onOpenChange(null);
+  const handleOnOpenChange = (open: boolean) => {
+    if (!open) onOpenChange(null)
   }
 
   if (application?.id !== lastApplicationId) {
@@ -63,7 +68,7 @@ export function ApplicationGraphDrawer({ application, resources, onOpenChange, o
             onHoverResource={setHoveredResourceId}
           />
 
-          <div className="flex flex-col gap-1.5 border-t border-border pt-3">
+          <div className="border-border flex flex-col gap-1.5 border-t pt-3">
             <span className="text-sm font-medium">Members</span>
             <ul className="flex flex-col gap-1.5">
               {members.map((resource) => (
@@ -77,7 +82,7 @@ export function ApplicationGraphDrawer({ application, resources, onOpenChange, o
             </ul>
           </div>
 
-          <div className="flex justify-end border-t border-border pt-4">
+          <div className="border-border flex justify-end border-t pt-4">
             <Button
               variant="outline"
               size="sm"

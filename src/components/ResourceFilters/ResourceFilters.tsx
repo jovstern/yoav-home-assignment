@@ -20,7 +20,12 @@ interface ResourceFiltersProps {
   totalCount: number
 }
 
-export function ResourceFilters({ criteria, onChange, resultCount, totalCount }: ResourceFiltersProps) {
+export function ResourceFilters({
+  criteria,
+  onChange,
+  resultCount,
+  totalCount,
+}: ResourceFiltersProps) {
   const [searchInput, setSearchInput] = useState(criteria.search)
   const debouncedSearch = useDebouncedValue(searchInput, 200)
 
@@ -28,9 +33,6 @@ export function ResourceFilters({ criteria, onChange, resultCount, totalCount }:
     if (debouncedSearch !== criteria.search) {
       onChange({ ...criteria, search: debouncedSearch })
     }
-    // Only re-run when the debounced search value changes — including
-    // `criteria`/`onChange` here would re-fire on every filter change too.
-    // oxlint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch])
 
   const hasActiveFilters =
@@ -52,8 +54,8 @@ export function ResourceFilters({ criteria, onChange, resultCount, totalCount }:
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
-        <div className="relative sm:w-64 shrink-0">
-          <Search className="pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
+        <div className="relative shrink-0 sm:w-64">
+          <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2" />
           <Input
             value={searchInput}
             onChange={(event) => setSearchInput(event.target.value)}
@@ -66,14 +68,14 @@ export function ResourceFilters({ criteria, onChange, resultCount, totalCount }:
               type="button"
               onClick={clearSearch}
               aria-label="Clear search"
-              className="absolute top-1/2 right-2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground absolute top-1/2 right-2 -translate-y-1/2 rounded p-0.5"
             >
               <X className="size-3.5" />
             </button>
           ) : null}
         </div>
 
-        <div className="flex flex-row gap-2 grow">
+        <div className="flex grow flex-row gap-2">
           <Select
             aria-label="Filter by provider"
             value={criteria.provider}

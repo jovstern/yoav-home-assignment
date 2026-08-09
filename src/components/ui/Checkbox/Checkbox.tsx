@@ -9,13 +9,13 @@ export function Checkbox({ className, ...props }: CheckboxProps) {
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        'flex size-4 shrink-0 items-center justify-center rounded border border-border bg-surface data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
+        'border-border bg-surface data-[state=checked]:border-primary data-[state=checked]:bg-primary focus-visible:ring-ring flex size-4 shrink-0 items-center justify-center rounded border focus-visible:ring-2 focus-visible:ring-offset-1',
         className,
       )}
       {...props}
     >
       <CheckboxPrimitive.Indicator>
-        <Check className="size-3 text-primary-foreground" />
+        <Check className="text-primary-foreground size-3" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

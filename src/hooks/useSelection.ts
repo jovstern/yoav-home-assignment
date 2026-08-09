@@ -5,7 +5,7 @@ export function useSelection() {
 
   const toggle = useCallback((id: string) => {
     setSelectedIds((prev) => {
-      const next = new Set(prev);
+      const next = new Set(prev)
 
       if (next.has(id)) {
         next.delete(id)
@@ -28,5 +28,6 @@ export function useSelection() {
     toggle,
     clear,
     isSelected,
-    size: selectedIds.size }
+    size: selectedIds.size,
+  }
 }

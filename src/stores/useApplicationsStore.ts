@@ -5,9 +5,9 @@ import type { Application } from '@/types'
 interface ApplicationsState {
   applications: Application[]
   createApplication: (input: {
-      name: string
-      description?: string
-      resourceIds: string[]
+    name: string
+    description?: string
+    resourceIds: string[]
   }) => Application
   deleteApplication: (id: string) => void
 }
@@ -25,7 +25,7 @@ export const useApplicationsStore = create<ApplicationsState>()(
           resourceIds: input.resourceIds,
           createdAt: Date.now(),
         }
-        set({ applications: [application, ...get().applications] });
+        set({ applications: [application, ...get().applications] })
 
         return application
       },

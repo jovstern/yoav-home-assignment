@@ -14,9 +14,12 @@ Other scripts:
 
 ```bash
 npm run build   # tsc -b && vite build - typecheck + production build
-npm run test    # vitest (17 tests)
+npm run test    # vitest (19 tests)
 npm run lint    # oxlint
+npm run format  # prettier --write .
 ```
+
+Format-on-save works out of the box in VS Code (`.vscode/settings.json` + the recommended Prettier extension); run `npm run format` for other editors.
 
 ## What I built
 
@@ -45,29 +48,31 @@ A few things I added that weren't asked for but seemed worth including:
 - **`localStorage` persistence isn't in the spec - I added it anyway, and want to be upfront about that.** The brief only asks to "hold state in the client," which plain in-memory state already satisfies - nothing requires Applications to survive a page refresh. I layered Zustand's `persist` middleware on top of the store anyway because it's a small, zero-new-dependency addition that noticeably improves the experience of actually using the app (create an Application, refresh the page mid-review, and it's still there). It's scoped to only the Applications store - filters, search, and selection are deliberately left unpersisted.
 - **Zustand for the one piece of state that needs to live above the tabs; plain `useState` for everything else.** I reached for a small Zustand store (`useApplicationsStore`) rather than React Context because there's exactly one piece of cross-cutting state and a handful of mutations (create/delete). Context would mean writing a Provider, a hook, and wiring it into the tree for what Zustand gives in ~20 lines with nothing to wrap the app in. Filters, search, selection, and dialog/drawer open state are deliberately not promoted to the store - they're `useState` in `App.tsx` or the owning component, since they never need to escape their own subtree and globalizing them would just be indirection.
 - **The resource list is virtualized even though today's 15 rows don't need it.** `ResourceTable`/`ResourceRow` are flex-based divs (not a native `<table>`) wrapped in `@tanstack/react-virtual`, which only mounts the rows currently scrolled into view - a deliberate ahead-of-need choice, called out with a comment at the wiring site in `ResourceTable.tsx`. If this ever backs a real cloud inventory with thousands of resources, the DOM and render cost stay flat instead of growing with the dataset.
-- **No graph library.** The required visualization is always a single hub with N spokes - a ~40-line SVG component with `useMemo`'d radial positions covers it without a dependency. (Considered [`@xyflow/react`](https://reactflow.dev/) if the graph needed to be interactive/draggable - it doesn't here.)
+- **No graph library.** The required visualization is always a single hub with N spokes - a ~40-line SVG component with `useMemo`'d radial positions covers it without a dependency. (Considered [`@xyflow/react`](https://reactflow.dev/) if the graph needed to be interactive/draggable - it doesn't here.) If a real, heavier graph library were used instead, I'd lazy-load it (`React.lazy` + `Suspense`, or a dynamic `import()`) behind the graph drawer rather than bundling it into the main chunk - the graph is only ever needed once a user opens an Application, not on initial page load.
 - **Radix UI for primitives that have real interaction/accessibility behavior to get right, hand-rolled Tailwind for the ones that don't.** I like Radix specifically for its per-component imports, headless/unstyled components, and because it's a library I'm already familiar with.
 - **No routing library (e.g. react-router).** Everything is one page with two in-memory tabs (Resources / Applications) - there was no case for URL-addressable routes, so a router would just be unused weight.
 - **No data-fetching/caching library (e.g. react-query).** There's no backend and no async data in this assignment - the resource list is a static in-memory array. Adding one would mean inventing a fake network layer just to use it.
 - **`Resource.openIssues`:** the spec's `Resource` type doesn't include this field, though the sample data and the display requirements need it. I added `openIssues: number` to reconcile that gap (noted here since I was asked to flag any such gaps).
 - **Checkbox-only selection, not click-anywhere-on-the-row.** I thought it'd be nice to trigger selection off the whole row, not just the checkbox - a bigger, more forgiving hit target. But that led me to a new concern: dragging to highlight/copy a resource's name (a normal thing to want to do in a table like this) would also toggle the row, since the mouseup at the end of that drag still fires a click. I built and verified a fix for it (checking `window.getSelection()` at click-time and skipping the toggle if there's an active text selection), but on reflection it was solving a problem I'd created rather than one that existed - the checkbox alone is already an unambiguous, easy-to-hit target, and no interaction cost was worth trading for it.
+- **Prettier for formatting, no ESLint.** oxlint already covers linting (including the React Compiler rule, see below), so adding ESLint on top would just be a second linter doing overlapping and possibly conflicting work for no real benefit. Prettier fills the actual gap - consistent formatting and format-on-save - without touching linting at all. `prettier-plugin-tailwindcss` is included too, so class lists get sorted automatically on save.
 
 ## Testing
 
-17 Vitest + React Testing Library tests across four files, chosen to cover judgment/logic rather than everything:
+19 Vitest + React Testing Library tests across five files, chosen to cover judgment/logic rather than everything:
 
 - `lib/filter.test.ts` - the pure filtering function: search matching, each filter dimension alone and combined, empty-result case.
 - `lib/display.test.ts` - the `splitByMatch` helper behind search-highlighting: no query, no match, and a match in the middle or at either edge.
 - `stores/useApplicationsStore.test.ts` - application creation produces unique ids and correct `resourceIds`; deletion removes only the targeted application; corrupted `localStorage` falls back to an empty list instead of throwing.
 - `components/CreateApplicationDialog/CreateApplicationDialog.test.tsx` - submit is disabled with no name or no selection, and a valid submit calls through to the store with the right payload.
+- `components/ResourceTable/ResourceTable.test.tsx` - an efficiency check: rendering 1,000 vs. 5,000 resources mounts the same small, bounded number of row elements instead of one per resource (proves the virtualizer is actually windowing, not just present), plus a `Profiler`-based smoke test that flags an exceptionally slow render (a generous bound, not a tight perf budget - render timing varies by machine/CI).
 
-**Not tested** (conscious timebox cut, verified manually in-browser instead): the virtualized list's rendering/scroll behavior, the SVG graph's layout, and responsive breakpoints.
+**Not tested** (conscious timebox cut, verified manually in-browser instead): the SVG graph's layout and responsive breakpoints.
 
 The app was also manually tested across browsers - Chrome, Safari, and Firefox - to catch any rendering or behavior differences beyond what the automated tests cover.
 
 ## What I'd do next
 
-- **A paginated resource list backed by a real API.** The list is already virtualized client-side (see above), but that only bounds *rendering* cost - it still assumes the full dataset is in memory. Once there's an actual backend, I'd paginate the `GET` (page/cursor-based) and fetch server-side page-by-page instead of loading everything into the client; virtualization plus infinite-scroll-style incremental fetching would then compose naturally on top of what's already there.
+- **A paginated resource list backed by a real API.** The list is already virtualized client-side (see above), but that only bounds _rendering_ cost - it still assumes the full dataset is in memory. Once there's an actual backend, I'd paginate the `GET` (page/cursor-based) and fetch server-side page-by-page instead of loading everything into the client; virtualization plus infinite-scroll-style incremental fetching would then compose naturally on top of what's already there.
 - **Prefetch the inactive tab's content on load**, so switching from Resources to Applications (or back) feels instant instead of doing the work on first switch.
 - **Multiple levels in the graph.** Today it's a single hub with one ring of resource spokes, which matches the spec (an Application connected to its member resources) and today's flat data model. If Applications could contain other Applications, or resources had their own dependencies on each other, the graph would need to become a real multi-level tree/DAG layout - at that point the hand-rolled radial SVG stops being enough and it's worth pulling in a proper graph library (e.g. `@xyflow/react`) for layout, pan/zoom, and collapsing/expanding subtrees.
 - **If a real backend existed:** react-query for fetching, caching, and optimistic updates - the caching that `localStorage` is standing in for today (see "Key decisions" above) would move to react-query's cache instead, and `localStorage` would stop being the source of truth.

@@ -11,20 +11,27 @@ interface DialogProps {
   className?: string
 }
 
-export function Dialog({ open, onOpenChange, title, description, children, className }: DialogProps) {
+export function Dialog({
+  open,
+  onOpenChange,
+  title,
+  description,
+  children,
+  className,
+}: DialogProps) {
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-40 bg-foreground/40 backdrop-blur-[1px]" />
+        <DialogPrimitive.Overlay className="bg-foreground/40 fixed inset-0 z-40 backdrop-blur-[1px]" />
         <DialogPrimitive.Content
           className={cn(
-            'fixed top-1/2 left-1/2 z-50 max-h-[85vh] w-full max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-xl border border-border bg-surface p-5 text-foreground shadow-xl outline-none',
+            'border-border bg-surface text-foreground fixed top-1/2 left-1/2 z-50 max-h-[85vh] w-full max-w-md -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-xl border p-5 shadow-xl outline-none',
             className,
           )}
         >
           <DialogPrimitive.Title className="text-base font-semibold">{title}</DialogPrimitive.Title>
           {description ? (
-            <DialogPrimitive.Description className="mt-1 text-sm text-muted-foreground">
+            <DialogPrimitive.Description className="text-muted-foreground mt-1 text-sm">
               {description}
             </DialogPrimitive.Description>
           ) : (

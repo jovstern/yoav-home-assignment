@@ -21,8 +21,12 @@ describe('useApplicationsStore', () => {
   })
 
   it('prepends new applications and keeps ids unique', () => {
-    const first = useApplicationsStore.getState().createApplication({ name: 'A', resourceIds: ['r-1'] })
-    const second = useApplicationsStore.getState().createApplication({ name: 'B', resourceIds: ['r-2'] })
+    const first = useApplicationsStore
+      .getState()
+      .createApplication({ name: 'A', resourceIds: ['r-1'] })
+    const second = useApplicationsStore
+      .getState()
+      .createApplication({ name: 'B', resourceIds: ['r-2'] })
 
     expect(first.id).not.toBe(second.id)
     expect(useApplicationsStore.getState().applications.map((a) => a.id)).toEqual([
@@ -32,8 +36,12 @@ describe('useApplicationsStore', () => {
   })
 
   it('deletes an application by id, leaving the others untouched', () => {
-    const first = useApplicationsStore.getState().createApplication({ name: 'A', resourceIds: ['r-1'] })
-    const second = useApplicationsStore.getState().createApplication({ name: 'B', resourceIds: ['r-2'] })
+    const first = useApplicationsStore
+      .getState()
+      .createApplication({ name: 'A', resourceIds: ['r-1'] })
+    const second = useApplicationsStore
+      .getState()
+      .createApplication({ name: 'B', resourceIds: ['r-2'] })
 
     useApplicationsStore.getState().deleteApplication(first.id)
 

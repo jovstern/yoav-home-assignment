@@ -11,9 +11,9 @@ export function SelectionBar({ count, onClear, onCreateApplication }: SelectionB
   if (count === 0) return null
 
   return (
-    <div className="sticky bottom-4 flex items-center justify-between gap-3 rounded-lg border border-border bg-surface px-4 py-3 shadow-lg">
+    <div className="border-border bg-surface sticky bottom-4 flex items-center justify-between gap-3 rounded-lg border px-4 py-3 shadow-lg">
       <span className="flex items-center gap-2 text-sm font-medium">
-        <Layers className="size-4 text-primary" />
+        <Layers className="text-primary size-4" />
         {count} resource{count === 1 ? '' : 's'} selected
       </span>
       <div className="flex items-center gap-2">

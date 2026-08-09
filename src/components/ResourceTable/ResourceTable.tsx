@@ -14,7 +14,12 @@ interface ResourceTableProps {
 
 const ESTIMATED_ROW_HEIGHT = 57
 
-export function ResourceTable({ resources, isSelected, onToggle, searchQuery }: ResourceTableProps) {
+export function ResourceTable({
+  resources,
+  isSelected,
+  onToggle,
+  searchQuery,
+}: ResourceTableProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const virtualizer = useVirtualizer({
@@ -25,12 +30,12 @@ export function ResourceTable({ resources, isSelected, onToggle, searchQuery }: 
   })
 
   return (
-    <div role="table" className="overflow-x-auto rounded-lg border border-border">
+    <div role="table" className="border-border overflow-x-auto rounded-lg border">
       <div className="min-w-[640px]">
         <div ref={scrollRef} role="rowgroup" className="max-h-[600px] overflow-y-auto">
           <div
             role="row"
-            className="sticky top-0 z-10 flex border-b border-border bg-muted text-left text-[10px] text-muted-foreground uppercase"
+            className="border-border bg-muted text-muted-foreground sticky top-0 z-10 flex border-b text-left text-[10px] uppercase"
           >
             <div role="columnheader" className={cn('px-3 py-2.5', COLUMN_WIDTHS.checkbox)} />
             <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.name)}>
@@ -39,19 +44,34 @@ export function ResourceTable({ resources, isSelected, onToggle, searchQuery }: 
             <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.type)}>
               Type
             </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.provider)}>
+            <div
+              role="columnheader"
+              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.provider)}
+            >
               Provider
             </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.region)}>
+            <div
+              role="columnheader"
+              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.region)}
+            >
               Region
             </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.environment)}>
+            <div
+              role="columnheader"
+              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.environment)}
+            >
               Environment
             </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.criticality)}>
+            <div
+              role="columnheader"
+              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.criticality)}
+            >
               Criticality
             </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 text-right font-medium', COLUMN_WIDTHS.openIssues)}>
+            <div
+              role="columnheader"
+              className={cn('px-3 py-2.5 text-right font-medium', COLUMN_WIDTHS.openIssues)}
+            >
               Open issues
             </div>
           </div>

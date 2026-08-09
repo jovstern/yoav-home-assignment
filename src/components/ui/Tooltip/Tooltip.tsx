@@ -19,7 +19,7 @@ export function Tooltip({ content, children, triggerClassName }: TooltipProps) {
           <TooltipPrimitive.Content
             side="top"
             sideOffset={6}
-            className="z-50 max-w-xs rounded-md bg-foreground px-2.5 py-1.5 text-xs text-background shadow-lg"
+            className="bg-foreground text-background z-50 max-w-xs rounded-md px-2.5 py-1.5 text-xs shadow-lg"
           >
             {content}
             <TooltipPrimitive.Arrow className="fill-foreground" />

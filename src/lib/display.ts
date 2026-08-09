@@ -9,10 +9,7 @@ const CRITICALITY_BADGE_VARIANT: Record<Criticality, string> = {
 
 export function criticalityBadgeVariant(criticality: Criticality) {
   return CRITICALITY_BADGE_VARIANT[criticality] as
-    | 'criticalityLow'
-    | 'criticalityMedium'
-    | 'criticalityHigh'
-    | 'criticalityCritical'
+    'criticalityLow' | 'criticalityMedium' | 'criticalityHigh' | 'criticalityCritical'
 }
 
 const PROVIDER_COLOR: Record<Provider, string> = {

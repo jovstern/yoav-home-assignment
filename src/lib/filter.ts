@@ -22,8 +22,10 @@ export function filterResources(
 
   return resources.filter((resource) => {
     if (criteria.provider !== 'all' && resource.provider !== criteria.provider) return false
-    if (criteria.environment !== 'all' && resource.environment !== criteria.environment) return false
-    if (criteria.criticality !== 'all' && resource.criticality !== criteria.criticality) return false
+    if (criteria.environment !== 'all' && resource.environment !== criteria.environment)
+      return false
+    if (criteria.criticality !== 'all' && resource.criticality !== criteria.criticality)
+      return false
 
     if (query.length === 0) return true
 
