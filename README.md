@@ -14,7 +14,7 @@ Other scripts:
 
 ```bash
 npm run build   # tsc -b && vite build - typecheck + production build
-npm run test    # vitest (19 tests)
+npm run test    # vitest (20 tests)
 npm run lint    # oxlint
 npm run format  # prettier --write .
 ```
@@ -58,11 +58,11 @@ A few things I added that weren't asked for but seemed worth including:
 
 ## Testing
 
-19 Vitest + React Testing Library tests across five files, chosen to cover judgment/logic rather than everything:
+20 Vitest + React Testing Library tests across five files, chosen to cover judgment/logic rather than everything:
 
 - `lib/filter.test.ts` - the pure filtering function: search matching, each filter dimension alone and combined, empty-result case.
 - `lib/display.test.ts` - the `splitByMatch` helper behind search-highlighting: no query, no match, and a match in the middle or at either edge.
-- `stores/useApplicationsStore.test.ts` - application creation produces unique ids and correct `resourceIds`; deletion removes only the targeted application; corrupted `localStorage` falls back to an empty list instead of throwing.
+- `stores/useApplicationsStore.test.ts` - application creation produces unique ids and correct `resourceIds`; deletion removes only the targeted application; throws instead of creating an application with an empty/whitespace-only name; corrupted `localStorage` falls back to an empty list instead of throwing.
 - `components/CreateApplicationDialog/CreateApplicationDialog.test.tsx` - submit is disabled with no name or no selection, and a valid submit calls through to the store with the right payload.
 - `components/ResourceTable/ResourceTable.test.tsx` - an efficiency check: rendering 1,000 vs. 5,000 resources mounts the same small, bounded number of row elements instead of one per resource (proves the virtualizer is actually windowing, not just present), plus a `Profiler`-based smoke test that flags an exceptionally slow render (a generous bound, not a tight perf budget - render timing varies by machine/CI).
 
@@ -81,7 +81,7 @@ The app was also manually tested across browsers - Chrome, Safari, and Firefox -
 - Playwright E2E covering the full select → create → view-graph path.
 - Pin selected resources to the top of the list, so a selection stays visible/reachable instead of scrolling out of view once you've picked from further down a long, virtualized list.
 - Copy-to-clipboard on a row (e.g. its name or ID), for quickly grabbing a resource's identifier without needing to open anything else.
-- **React Compiler**, once the app is big enough to have real render-cost hotspots worth auto-memoizing - today there's nothing to fix, so turning it on would just add a slower Babel-based dev transform in place of Vite's normal esbuild/SWC pipeline for no measurable benefit. Already got a taste of it cheaply: `react/react-compiler` is enabled in `.oxlintrc.json` (oxlint ports the same static analysis natively, no separate `eslint-plugin-react-compiler`/ESLint install needed), and it's already flagged two real "reset state via a `useEffect`" spots worth fixing (`ApplicationGraphDrawer`, `CreateApplicationDialog`) - a good example of the lint value being separable from the runtime compiler.
+- **React Compiler**, once the app is big enough to have real render-cost hotspots worth auto-memoizing - today there's nothing to fix, so turning it on would just add a slower Babel-based dev transform in place of Vite's normal esbuild/SWC pipeline for no measurable benefit. Already got a taste of it cheaply: `react/react-compiler` is enabled in `.oxlintrc.json` (oxlint ports the same static analysis natively, no separate `eslint-plugin-react-compiler`/ESLint install needed), and it already flagged (and I fixed) two real "reset state via a `useEffect`" spots (`ApplicationGraphDrawer`, `CreateApplicationDialog`) - a good example of the lint value being separable from the runtime compiler.
 - **A more advanced table** (e.g. [`@tanstack/table`](https://tanstack.com/table)) that lets users customize the table to their needs and save those preferences to `localStorage`/`sessionStorage`.
 
 ## Where I used AI

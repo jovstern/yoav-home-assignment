@@ -35,6 +35,16 @@ describe('useApplicationsStore', () => {
     ])
   })
 
+  it('throws instead of creating an application with an empty or whitespace-only name', () => {
+    expect(() =>
+      useApplicationsStore.getState().createApplication({ name: '', resourceIds: ['r-1'] }),
+    ).toThrow()
+    expect(() =>
+      useApplicationsStore.getState().createApplication({ name: '   ', resourceIds: ['r-1'] }),
+    ).toThrow()
+    expect(useApplicationsStore.getState().applications).toHaveLength(0)
+  })
+
   it('deletes an application by id, leaving the others untouched', () => {
     const first = useApplicationsStore
       .getState()

@@ -32,51 +32,59 @@ export function ResourceTable({
   return (
     <div role="table" className="border-border overflow-x-auto rounded-lg border">
       <div className="min-w-[640px]">
-        <div ref={scrollRef} role="rowgroup" className="max-h-[600px] overflow-y-auto">
-          <div
-            role="row"
-            className="border-border bg-muted text-muted-foreground sticky top-0 z-10 flex border-b text-left text-[10px] uppercase"
-          >
-            <div role="columnheader" className={cn('px-3 py-2.5', COLUMN_WIDTHS.checkbox)} />
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.name)}>
-              Name
-            </div>
-            <div role="columnheader" className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.type)}>
-              Type
-            </div>
+        <div ref={scrollRef} className="max-h-[600px] overflow-y-auto">
+          <div role="rowgroup" className="sticky top-0 z-10">
             <div
-              role="columnheader"
-              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.provider)}
+              role="row"
+              className="border-border bg-muted text-muted-foreground flex border-b text-left text-[10px] uppercase"
             >
-              Provider
-            </div>
-            <div
-              role="columnheader"
-              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.region)}
-            >
-              Region
-            </div>
-            <div
-              role="columnheader"
-              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.environment)}
-            >
-              Environment
-            </div>
-            <div
-              role="columnheader"
-              className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.criticality)}
-            >
-              Criticality
-            </div>
-            <div
-              role="columnheader"
-              className={cn('px-3 py-2.5 text-right font-medium', COLUMN_WIDTHS.openIssues)}
-            >
-              Open issues
+              <div role="columnheader" className={cn('px-3 py-2.5', COLUMN_WIDTHS.checkbox)} />
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.name)}
+              >
+                Name
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.type)}
+              >
+                Type
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.provider)}
+              >
+                Provider
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.region)}
+              >
+                Region
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.environment)}
+              >
+                Environment
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 font-medium', COLUMN_WIDTHS.criticality)}
+              >
+                Criticality
+              </div>
+              <div
+                role="columnheader"
+                className={cn('px-3 py-2.5 text-right font-medium', COLUMN_WIDTHS.openIssues)}
+              >
+                Open issues
+              </div>
             </div>
           </div>
 
-          <div style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
+          <div role="rowgroup" style={{ height: virtualizer.getTotalSize(), position: 'relative' }}>
             {virtualizer.getVirtualItems().map((virtualRow) => {
               const resource = resources[virtualRow.index]
               return (

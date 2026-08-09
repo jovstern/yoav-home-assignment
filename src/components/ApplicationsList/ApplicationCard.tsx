@@ -36,7 +36,15 @@ export function ApplicationCard({ application, members, onSelect }: ApplicationC
         </span>
         <span className="flex flex-wrap items-center gap-1">
           {members.map((resource) => (
-            <Tooltip key={resource.id} content={resource.name}>
+            <Tooltip
+              key={resource.id}
+              content={
+                <span className="flex flex-col gap-0.5">
+                  <span>{resource.name}</span>
+                  <span className="text-background/70">Owner: {resource.owner}</span>
+                </span>
+              }
+            >
               <span
                 className="block size-2 shrink-0 rounded-full"
                 style={{ backgroundColor: providerColor(resource.provider) }}

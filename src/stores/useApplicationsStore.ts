@@ -18,9 +18,14 @@ export const useApplicationsStore = create<ApplicationsState>()(
       applications: [],
 
       createApplication: (input) => {
+        const name = input.name.trim()
+        if (!name) {
+          throw new Error('createApplication: name must not be empty')
+        }
+
         const application: Application = {
           id: crypto.randomUUID(),
-          name: input.name.trim(),
+          name,
           description: input.description?.trim() || undefined,
           resourceIds: input.resourceIds,
           createdAt: Date.now(),

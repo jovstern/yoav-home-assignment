@@ -16,6 +16,8 @@ const NODE_RADIUS = 26
 const CRITICALITY_DOT_RADIUS = 5
 const CRITICALITY_DOT_OFFSET = NODE_RADIUS * Math.SQRT1_2
 const CENTER_RADIUS = 42
+const RESOURCE_LABEL_MAX_LENGTH = 20
+const CENTER_LABEL_MAX_LENGTH = 13
 
 export function ApplicationGraph({
   application,
@@ -99,7 +101,9 @@ export function ApplicationGraph({
               fontSize={10}
               fill="var(--color-foreground)"
             >
-              {resource.name.length > 20 ? `${resource.name.slice(0, 19)}…` : resource.name}
+              {resource.name.length > RESOURCE_LABEL_MAX_LENGTH
+                ? `${resource.name.slice(0, RESOURCE_LABEL_MAX_LENGTH - 1)}…`
+                : resource.name}
             </text>
           </g>
         )
@@ -114,7 +118,9 @@ export function ApplicationGraph({
         fontWeight={700}
         fill="var(--color-primary-foreground)"
       >
-        {application.name.length > 13 ? `${application.name.slice(0, 12)}…` : application.name}
+        {application.name.length > CENTER_LABEL_MAX_LENGTH
+          ? `${application.name.slice(0, CENTER_LABEL_MAX_LENGTH - 1)}…`
+          : application.name}
       </text>
     </svg>
   )
