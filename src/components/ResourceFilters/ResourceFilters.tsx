@@ -27,7 +27,8 @@ export function ResourceFilters({
   totalCount,
 }: ResourceFiltersProps) {
   const [searchInput, setSearchInput] = useState(criteria.search)
-  const debouncedSearch = useDebouncedValue(searchInput, 200)
+  // Set debounce delay to 0ms since no network fetch is required and delay introduces unnecessary UI latency.
+  const debouncedSearch = useDebouncedValue(searchInput, 0)
 
   useEffect(() => {
     if (debouncedSearch !== criteria.search) {

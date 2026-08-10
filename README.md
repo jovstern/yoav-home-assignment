@@ -54,7 +54,7 @@ A few things I added that weren't asked for but seemed worth including:
 - **No data-fetching/caching library (e.g. react-query).** There's no backend and no async data in this assignment - the resource list is a static in-memory array. Adding one would mean inventing a fake network layer just to use it.
 - **`Resource.openIssues`:** the spec's `Resource` type doesn't include this field, though the sample data and the display requirements need it. I added `openIssues: number` to reconcile that gap (noted here since I was asked to flag any such gaps).
 - **Checkbox-only selection, not click-anywhere-on-the-row.** I thought it'd be nice to trigger selection off the whole row, not just the checkbox - a bigger, more forgiving hit target. But that led me to a new concern: dragging to highlight/copy a resource's name (a normal thing to want to do in a table like this) would also toggle the row, since the mouseup at the end of that drag still fires a click.
-
+- **Maybe prevent grouping of only one selection.**
 
 ## Testing
 
